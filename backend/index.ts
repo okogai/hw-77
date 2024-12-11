@@ -10,6 +10,7 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 app.use('/posts', postsRouter);
+app.use(express.static('public'));
 
 const run = async () => {
     if (fs.existsSync("./Db.json")) {
