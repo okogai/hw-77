@@ -7,6 +7,7 @@ export interface IPostFromDb {
 }
 
 export interface IPostToSend {
-  message: string | null;
-  author: string;
+  message: string ;
+  author: string | null;
+  image: string | null;
 }
