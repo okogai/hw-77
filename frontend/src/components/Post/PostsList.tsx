@@ -46,7 +46,7 @@ const PostsList = () => {
 
       {!loading && posts.length === 0 && (
         <Typography variant="h6" color="textSecondary">
-          No messages yet
+          No posts yet
         </Typography>
       )}
 
