@@ -3,7 +3,7 @@ import { Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { IPostToSend } from '../../types';
 import { sendPostLoadingSelector } from '../../store/slices/postsSlice.ts';
-import { postsFetch } from '../../store/thunks/postsThunks.ts';
+import { addPost, postsFetch } from '../../store/thunks/postsThunks.ts';
 import Grid from '@mui/material/Grid2';
 import FileInput from '../UI/FileInput/FileInput.tsx';
 
@@ -15,6 +15,7 @@ const initialState = {
 
 const PostForm = () => {
   const [form, setForm] = useState<IPostToSend>(initialState);
+  const [filename, setFilename] = useState('');
   const loading = useAppSelector(sendPostLoadingSelector);
   const dispatch = useAppDispatch();
 
@@ -24,27 +25,37 @@ const PostForm = () => {
   };
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, files} = e.target;
+    const { name, files } = e.target;
     if (files) {
-      setForm(prevState => ({
-        ...prevState, [name]: files[0]
+      setForm((prevState) => ({
+        ...prevState,
+        [name]: files[0],
       }));
+      setFilename(files[0].name);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(form)
     if (form.message.trim() === '') {
       alert("Please fill in all fields ");
     } else {
+      await dispatch(addPost(form));
       await dispatch(postsFetch());
       setForm(initialState);
+      setFilename('');
     }
   };
 
   return (
-    <Grid container spacing={1} rowSpacing={2} sx={{maxWidth: "500px", marginX: "auto", marginY: "20px"}} direction="column" justifyContent="center" component="form" onSubmit={handleSubmit}>
+    <Grid container spacing={1} rowSpacing={2}
+          sx={{maxWidth: "600px",
+            marginX: "auto",
+            marginY: "20px"}}
+          direction="column"
+          justifyContent="center"
+          component="form"
+          onSubmit={handleSubmit}>
       <Grid alignSelf="center">
         <Typography variant="h4">Publish a post</Typography>
       </Grid>
@@ -64,6 +75,7 @@ const PostForm = () => {
           label="Enter your message"
           name="message"
           variant="outlined"
+          multiline
           fullWidth
           size="small"
           value={form.message}
@@ -74,6 +86,7 @@ const PostForm = () => {
         <FileInput
           label="Image"
           name="image"
+          filename={filename}
           onChange={fileInputChangeHandler}
         />
       </Grid>

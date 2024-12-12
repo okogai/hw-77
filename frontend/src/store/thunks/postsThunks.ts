@@ -13,6 +13,14 @@ export const postsFetch = createAsyncThunk<IPostFromDb[]>(
 export const addPost = createAsyncThunk<void, IPostToSend>(
   "posts/addPost",
   async (post: IPostToSend) => {
-    await AxiosAPI.post("/posts", post);
+    const formData = new FormData();
+    formData.append('message', post.message);
+    if (post.author) {
+      formData.append('author', post.author);
+    }
+    if (post.image) {
+      formData.append('image', post.image);
+    }
+    await AxiosAPI.post("/posts", formData);
   }
 );

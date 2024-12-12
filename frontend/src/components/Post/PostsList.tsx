@@ -37,6 +37,8 @@ const PostsList = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
+        maxWidth: '1024px',
+        marginX: 'auto',
         padding: 2,
       }}
     >

@@ -9,9 +9,9 @@ interface Props {
 
 const Post: React.FC<Props> = ({ post }) => {
   return (
-    <Card sx={{ marginBottom: 2 }}>
+    <Card>
       <CardActionArea sx={{ display: 'flex', alignItems: 'center' }}>
-       <Box width="50%">
+       <Box width="60%">
          <CardContent>
            <Typography variant="caption" marginRight="10px" color="text.disabled">
              Posted on:
@@ -25,7 +25,7 @@ const Post: React.FC<Props> = ({ post }) => {
            </Typography>
          </CardContent>
        </Box>
-        <Box width="50%">
+        <Box width="40%">
           {post.image && (
             <CardMedia
               component="img"
